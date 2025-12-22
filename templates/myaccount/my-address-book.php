@@ -48,7 +48,7 @@ if ( setting( 'billing_enable' ) === true ) {
 	if ( ! $woo_address_book_hide_billing_address_book ) {
 		?>
 
-		<div class="address_book billing_address_book" data-addresses="<?php echo esc_attr( (string) $woo_address_book_billing_address_book->count() ); ?>" data-limit="<?php echo esc_attr( (string) $woo_address_book_save_limit ); ?>">
+		<div class="address_book billing_address_book bg-white rounded rounded-md px-3 py-4 mb-4" data-addresses="<?php echo esc_attr( (string) $woo_address_book_billing_address_book->count() ); ?>" data-limit="<?php echo esc_attr( (string) $woo_address_book_save_limit ); ?>">
 			<header>
 				<h3><?php esc_html_e( 'Billing Address Book', 'woo-address-book' ); ?></h3>
 				<?php
@@ -94,7 +94,7 @@ if ( setting( 'billing_enable' ) === true ) {
 
 				?>
 			</p>
-			<div class="addresses address-book">
+			<div class="addresses address-book bg-white rounded rounded-md p-1">
 				<?php
 
 				foreach ( $woo_address_book_billing_address_book->addresses() as $woo_address_book_key => $woo_address_book_fields ) {
