@@ -197,15 +197,25 @@ var woo_address_book_app = {
 					new_address.addClass("wc-address-book-address-default");
 					new_address
 						.find(".wc-address-book-make-default")
-						.prop("disabled", true);
-					new_address.find(".wc-address-book-delete").prop("disabled", true);
+						.prop("disabled", true)
+						.addClass("bg-gray-200 text-gray-50")
+						.removeClass("bg-green text-white");
+					new_address
+						.find(".wc-address-book-delete")
+						.prop("disabled", true)
+						.addClass("bg-gray-200 text-gray-50")
+						.removeClass("bg-red-400 text-white");
 					default_address.removeClass("wc-address-book-address-default");
 					default_address
 						.find(".wc-address-book-make-default")
-						.prop("disabled", false);
+						.prop("disabled", false)
+						.removeClass("bg-gray-200 text-gray-50")
+						.addClass("bg-green text-white");
 					default_address
 						.find(".wc-address-book-delete")
-						.prop("disabled", false);
+						.prop("disabled", false)
+						.removeClass("bg-gray-200 text-gray-50")
+						.addClass("bg-red-400 text-white");
 					default_address
 						.find(".wc-address-book-address-badges")
 						.prependTo(new_address);

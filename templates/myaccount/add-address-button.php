@@ -49,7 +49,7 @@ $woo_address_book_add_button_classes = 'add button wc-address-book-add-' . $woo_
 	</span>
 	<a
 		href="<?php echo esc_url( get_address_book_endpoint_url( 'new', $woo_address_book->type() ) ); ?>"
-		class="<?php echo esc_attr( $woo_address_book_add_button_classes ); ?>"
+		class="<?php echo esc_attr( $woo_address_book_add_button_classes ); ?> btn transition-colors focus:outline-none focus:ring-2 ring-offset-transparent focus:ring-offset-2 focus:ring-opacity-50 inline-flex items-center text-white bg-green hover:bg-green-600 focus:bg-green-600 focus:ring-green-600 border border-transparent px-3 py-1 text-sm rounded-md font-normal"
 			<?php
 			if ( ! $woo_address_book->is_under_limit() ) {
 				echo 'style="display:none"';

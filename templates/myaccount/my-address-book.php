@@ -48,15 +48,15 @@ if ( setting( 'billing_enable' ) === true ) {
 	if ( ! $woo_address_book_hide_billing_address_book ) {
 		?>
 
-		<div class="address_book billing_address_book bg-white rounded rounded-md px-3 py-4 mb-4" data-addresses="<?php echo esc_attr( (string) $woo_address_book_billing_address_book->count() ); ?>" data-limit="<?php echo esc_attr( (string) $woo_address_book_save_limit ); ?>">
-			<header>
+		<div class="address_book billing_address_book wc-box" data-addresses="<?php echo esc_attr( (string) $woo_address_book_billing_address_book->count() ); ?>" data-limit="<?php echo esc_attr( (string) $woo_address_book_save_limit ); ?>">
+			<header class="flex justify-between">
 				<h3><?php esc_html_e( 'Billing Address Book', 'woo-address-book' ); ?></h3>
 				<?php
 				// Add link/button to the my accounts page for adding addresses.
 				add_additional_address_button( 'billing' );
 				?>
 			</header>
-
+			<hr class="mt-0">
 			<p class="myaccount_address">
 				<?php
 				$woo_address_book_billing_description = esc_html( __( 'The following billing addresses are available during the checkout process. ', 'woo-address-book' ) );
@@ -94,7 +94,7 @@ if ( setting( 'billing_enable' ) === true ) {
 
 				?>
 			</p>
-			<div class="addresses address-book bg-white rounded rounded-md p-1">
+			<div class="addresses address-book grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 				<?php
 
 				foreach ( $woo_address_book_billing_address_book->addresses() as $woo_address_book_key => $woo_address_book_fields ) {
@@ -115,23 +115,25 @@ if ( setting( 'billing_enable' ) === true ) {
 
 					$woo_address_book_address_default = $woo_address_book_billing_address_book->is_default( $woo_address_book_key );
 					?>
-					<div class="wc-address-book-address<?php echo esc_attr( $woo_address_book_address_default ? ' wc-address-book-address-default' : '' ); ?>">
+					<div class="wc-address-book-address<?php echo esc_attr( $woo_address_book_address_default ? ' wc-address-book-address-default' : '' ); ?>  bg-gray-50 rounded rounded-md px-2 py-1 flex flex-col justify-between">
 						<?php
 						if ( $woo_address_book_address_default ) {
 							?>
 							<div class="wc-address-book-address-badges">
-								<span class="wc-address-book-address-default-label"><?php esc_html_e( 'Default', 'woo-address-book' ); ?></span>
+								<span class="wc-address-book-address-default-label bg-yellow text-black px-2 py-1 rounded inline text-xs"><?php esc_html_e( 'Default', 'woo-address-book' ); ?></span>
 							</div>
 							<?php
 						}
 						?>
-						<address>
+						<address class="my-2">
 							<?php echo wp_kses( $woo_address_book_formatted_address, array( 'br' => array() ) ); ?>
 						</address>
-						<div class="wc-address-book-meta">
-							<a href="<?php echo esc_url( get_address_book_endpoint_url( $woo_address_book_key, 'billing' ) ); ?>" class="wc-address-book-edit button wp-element-button"><?php echo esc_html__( 'Edit', 'woo-address-book' ); ?></a>
-							<button type="button" data-wc-address-type="billing" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-delete button wp-element-button"><?php echo esc_html__( 'Delete', 'woo-address-book' ); ?></button>
-							<button type="button" data-wc-address-type="billing" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-make-default button wp-element-button"><?php echo esc_html__( 'Set as Default', 'woo-address-book' ); ?></button>
+						<?php echo wp_kses($woo_address_book_fields['phone'], array()); ?><br>
+						<?php echo wp_kses($woo_address_book_fields['email'], array()); ?>
+						<div class="wc-address-book-meta flex gap-x-2 border-t border-gray-200 pt-1">
+							<a href="<?php echo esc_url( get_address_book_endpoint_url( $woo_address_book_key, 'billing' ) ); ?>" class="wc-address-book-edit button wp-element-button btn transition-colors focus:outline-none focus:ring-2 ring-offset-transparent focus:ring-offset-2 focus:ring-opacity-50 inline-flex items-center text-white bg-green hover:bg-green-600 focus:bg-green-600 focus:ring-green-600 border border-transparent px-2 py-1 text-xs rounded-sm font-normal"><?php echo esc_html__( 'Edit', 'woo-address-book' ); ?></a>
+							<button type="button" data-wc-address-type="billing" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-delete button wp-element-button btn inline-flex items-center border border-transparent px-2 py-1 text-xs rounded-sm font-normal <?php echo $woo_address_book_address_default ? 'bg-gray-200 text-gray-50' : 'bg-red-400 text-white'; ?>"><?php echo esc_html__( 'Delete', 'woo-address-book' ); ?></button>
+							<button type="button" data-wc-address-type="billing" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-make-default button wp-element-button btn transition-colors focus:outline-none focus:ring-2 ring-offset-transparent focus:ring-offset-2 focus:ring-opacity-50 inline-flex items-center border border-transparent px-2 py-1 text-xs rounded-sm font-normal <?php echo $woo_address_book_address_default ? 'bg-gray-200 text-gray-50' : 'bg-green text-white'; ?>"><?php echo esc_html__( 'Set as Default', 'woo-address-book' ); ?></button>
 						</div>
 					</div>
 					<?php
@@ -159,16 +161,16 @@ if ( setting( 'shipping_enable' ) === true ) {
 	if ( ! $woo_address_book_hide_shipping_address_book ) {
 		?>
 
-		<div class="address_book shipping_address_book" data-addresses="<?php echo esc_attr( (string) $woo_address_book_count_section ); ?>" data-limit="<?php echo esc_attr( (string) $woo_address_book_save_limit ); ?>">
+		<div class="address_book shipping_address_book wc-box" data-addresses="<?php echo esc_attr( (string) $woo_address_book_count_section ); ?>" data-limit="<?php echo esc_attr( (string) $woo_address_book_save_limit ); ?>">
 
-			<header>
+			<header class="flex justify-between">
 				<h3><?php esc_html_e( 'Shipping Address Book', 'woo-address-book' ); ?></h3>
 				<?php
 				// Add link/button to the my accounts page for adding addresses.
 				add_additional_address_button( 'shipping' );
 				?>
 			</header>
-
+			<hr class="mt-0">
 			<p class="myaccount_address">
 				<?php
 				$woo_address_book_shipping_description = esc_html( __( 'The following shipping addresses are available during the checkout process.', 'woo-address-book' ) );
@@ -209,7 +211,7 @@ if ( setting( 'shipping_enable' ) === true ) {
 
 			<?php
 			if ( ! wc_ship_to_billing_address_only() && get_option( 'woocommerce_calc_shipping' ) !== 'no' ) {
-				echo '<div class="addresses address-book">';
+				echo '<div class="addresses address-book grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">';
 
 				foreach ( $woo_address_book_shipping_address_book->addresses() as $woo_address_book_key => $woo_address_book_fields ) {
 					/**
@@ -229,23 +231,23 @@ if ( setting( 'shipping_enable' ) === true ) {
 
 					$woo_address_book_address_default = $woo_address_book_shipping_address_book->is_default( $woo_address_book_key );
 					?>
-					<div class="wc-address-book-address<?php echo esc_attr( $woo_address_book_address_default ? ' wc-address-book-address-default' : '' ); ?>">
+					<div class="wc-address-book-address<?php echo esc_attr( $woo_address_book_address_default ? ' wc-address-book-address-default' : '' ); ?> bg-gray-50 rounded rounded-md px-2 py-1 flex flex-col justify-between">
 					<?php
 					if ( $woo_address_book_address_default ) {
 						?>
 							<div class="wc-address-book-address-badges">
-								<span class="wc-address-book-address-default-label"><?php esc_html_e( 'Default', 'woo-address-book' ); ?></span>
+								<span class="wc-address-book-address-default-label inline bg-yellow text-black px-2 py-1 rounded text-xs"><?php esc_html_e( 'Default', 'woo-address-book' ); ?></span>
 							</div>
 							<?php
 					}
 					?>
-						<address>
+						<address class="my-2">
 							<?php echo wp_kses( $woo_address_book_formatted_address, array( 'br' => array() ) ); ?>
 						</address>
-						<div class="wc-address-book-meta">
-							<a href="<?php echo esc_url( get_address_book_endpoint_url( $woo_address_book_key, 'shipping' ) ); ?>" class="wc-address-book-edit button wp-element-button"><?php echo esc_html__( 'Edit', 'woo-address-book' ); ?></a>
-							<button type="button" data-wc-address-type="shipping" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-delete button wp-element-button"><?php echo esc_html__( 'Delete', 'woo-address-book' ); ?></button>
-							<button type="button" data-wc-address-type="shipping" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-make-default button wp-element-button"><?php echo esc_html__( 'Set as Default', 'woo-address-book' ); ?></button>
+						<div class="wc-address-book-meta flex gap-x-2 border-t border-gray-200 pt-1">
+							<a href="<?php echo esc_url( get_address_book_endpoint_url( $woo_address_book_key, 'shipping' ) ); ?>" class="wc-address-book-edit button wp-element-button btn transition-colors focus:outline-none focus:ring-2 ring-offset-transparent focus:ring-offset-2 focus:ring-opacity-50 inline-flex items-center text-white bg-green hover:bg-green-600 focus:bg-green-600 focus:ring-green-600 border border-transparent px-2 py-1 text-xs rounded-sm font-normal"><?php echo esc_html__( 'Edit', 'woo-address-book' ); ?></a>
+							<button type="button" data-wc-address-type="shipping" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-make-default button wp-element-button btn transition-colors focus:outline-none focus:ring-2 ring-offset-transparent focus:ring-offset-2 focus:ring-opacity-50 inline-flex items-center border border-transparent px-2 py-1 text-xs rounded-sm font-normal <?php echo $woo_address_book_address_default ? 'bg-gray-200 text-gray-50' : 'bg-red-400 text-white'; ?>"><?php echo esc_html__( 'Delete', 'woo-address-book' ); ?></button>
+							<button type="button" data-wc-address-type="shipping" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-make-default button wp-element-button btn transition-colors focus:outline-none focus:ring-2 ring-offset-transparent focus:ring-offset-2 focus:ring-opacity-50 inline-flex items-center border border-transparent px-2 py-1 text-xs rounded-sm font-normal <?php echo $woo_address_book_address_default ? 'bg-gray-200 text-gray-50' : 'bg-green text-white'; ?>"><?php echo esc_html__( 'Set as Default', 'woo-address-book' ); ?></button>
 						</div>
 					</div>
 					<?php
