@@ -16,11 +16,11 @@ var woo_address_book_app = {
 		var $ = this.jQuery;
 		var load_selectWoo = true;
 		var address_book = $(
-			"select#shipping_address_book:visible, select#billing_address_book:visible"
+			"select#shipping_address_book:visible, select#billing_address_book:visible",
 		);
 		if (!address_book.length) {
 			address_book = $(
-				'input[name="shipping_address_book"]:checked, input[name="billing_address_book"]:checked'
+				'input[name="shipping_address_book"]:checked, input[name="billing_address_book"]:checked',
 			);
 			load_selectWoo = false;
 		}
@@ -58,7 +58,7 @@ var woo_address_book_app = {
 			'#billing_address_book_field #billing_address_book, #billing_address_book_field input[name="billing_address_book"]:checked',
 			function () {
 				woo_address_book_app.checkout_field_prepop("billing", false);
-			}
+			},
 		);
 
 		this.shipping_address_from_cart = false;
@@ -87,13 +87,13 @@ var woo_address_book_app = {
 			'#shipping_address_book_field #shipping_address_book, #shipping_address_book_field input[name="shipping_address_book"]:checked',
 			function () {
 				woo_address_book_app.checkout_field_prepop("shipping", false);
-			}
+			},
 		);
 
 		// Update checkout when address changes.
 		if ($("form[name=checkout]").length > 0) {
 			$(
-				"#shipping_country, #shipping_state_field, #shipping_city, #shipping_postcode, #billing_country, #billing_state_field, #billing_city, #billing_postcode"
+				"#shipping_country, #shipping_state_field, #shipping_city, #shipping_postcode, #billing_country, #billing_state_field, #billing_city, #billing_postcode",
 			).on("change", function () {
 				$(document.body).trigger("update_checkout");
 			});
@@ -167,12 +167,12 @@ var woo_address_book_app = {
 			if (type === "billing") {
 				var main_address_slot = $(".u-column1.woocommerce-Address address");
 				var default_address = $(
-					".billing_address_book .wc-address-book-address-default"
+					".billing_address_book .wc-address-book-address-default",
 				);
 			} else if (type === "shipping") {
 				var main_address_slot = $(".u-column2.woocommerce-Address address");
 				var default_address = $(
-					".shipping_address_book .wc-address-book-address-default"
+					".shipping_address_book .wc-address-book-address-default",
 				);
 			} else {
 				return;
@@ -229,7 +229,7 @@ var woo_address_book_app = {
 
 		$(".wc-address-book-address-default .wc-address-book-meta button").prop(
 			"disabled",
-			true
+			true,
 		);
 	},
 
@@ -242,7 +242,7 @@ var woo_address_book_app = {
 		if (
 			initial_address &&
 			$("#" + address_type + "_address_book_field").hasClass(
-				"wc-address-book-subscription-renewal"
+				"wc-address-book-subscription-renewal",
 			)
 		) {
 			return;
@@ -252,7 +252,7 @@ var woo_address_book_app = {
 				address_type +
 				"_address_book_field #" +
 				address_type +
-				"_address_book"
+				"_address_book",
 		);
 		if (!that.length) {
 			that = $(
@@ -260,7 +260,7 @@ var woo_address_book_app = {
 					address_type +
 					'_address_book_field input[name="' +
 					address_type +
-					'_address_book"]:checked'
+					'_address_book"]:checked',
 			);
 		}
 
@@ -327,6 +327,11 @@ var woo_address_book_app = {
 						action: "wc_address_book_checkout_update",
 						name: name,
 						type: address_type,
+						customer:
+							$("#billing_checkout_as_customer_id").length &&
+							$("#billing_checkout_as_customer_id").val()
+								? $("#billing_checkout_as_customer_id").val()
+								: null,
 						nonce: woo_address_book.checkout_security,
 					},
 					dataType: "json",

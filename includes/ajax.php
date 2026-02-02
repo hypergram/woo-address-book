@@ -119,8 +119,17 @@ function checkout_update() {
 	} else {
 		$type = 'shipping';
 	}
-
-	$customer = get_current_customer( 'ajax_checkout_update' );
+	$customer = 0;
+	if ( isset( $_POST['customer'] ) ) {
+		$customer_id = absint(sanitize_text_field( wp_unslash( $_POST['customer'] ) ));
+		if($customer_id) {
+			$customer = new \WC_Customer( $customer_id );
+		}
+	} 
+	if(!$customer) {
+		$customer = get_current_customer( 'ajax_checkout_update' );
+	}
+	
 	if ( ! $customer ) {
 		wc_add_notice( __( 'Could not get customer.', 'woo-address-book' ), 'error' );
 		wc_print_notices();
