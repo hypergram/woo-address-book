@@ -338,6 +338,7 @@ class Address_Book {
 	 * @return string      The address key.
 	 */
 	public function add( array $address, bool $as_default = false ) {
+		if(!empty($address['country'])) {
 		$key                  = $this->get_new_address_number();
 		$this->address_keys[] = $key;
 		$this->update_address_meta( $key, $address );
@@ -346,6 +347,8 @@ class Address_Book {
 		}
 		$this->update_address_book_meta();
 		return $key;
+		}
+		return null;
 	}
 
 	/**
