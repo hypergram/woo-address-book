@@ -23,7 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function delete() {
-	check_ajax_referer( 'woo-address-book-delete', 'nonce' );
+	if (!current_user_can('manage_woocommerce')) {
+		check_ajax_referer( 'woo-address-book-delete', 'nonce' );
+	}
 
 	if ( ! isset( $_POST['name'] ) || ! isset( $_POST['type'] ) ) {
 		die( 'no address passed' );
@@ -31,7 +33,14 @@ function delete() {
 
 	$address_name = sanitize_text_field( wp_unslash( $_POST['name'] ) );
 	$type         = sanitize_text_field( wp_unslash( $_POST['type'] ) );
-	$customer     = get_current_customer( 'ajax_delete' );
+	
+	$customer = get_current_customer( 'ajax_delete' );
+	if (current_user_can('manage_woocommerce') && isset( $_POST['customer'] ) ) {
+		$customer_id = absint(sanitize_text_field( wp_unslash( $_POST['customer'] ) ));
+		if($customer_id) {
+			$customer = new \WC_Customer( $customer_id );
+		}
+	} 
 	if ( ! $customer ) {
 		wc_add_notice( __( 'Could not get customer.', 'woo-address-book' ), 'error' );
 		wc_print_notices();
@@ -63,9 +72,17 @@ add_action( 'wp_ajax_wc_address_book_delete', __NAMESPACE__ . '\delete' );
  * @since 1.0.0
  */
 function make_default() {
-	check_ajax_referer( 'woo-address-book-default', 'nonce' );
-
+	if (!current_user_can('manage_woocommerce')) {
+		check_ajax_referer( 'woo-address-book-default', 'nonce' );
+	}
+	
 	$customer = get_current_customer( 'ajax_make_default' );
+	if (current_user_can('manage_woocommerce') && isset( $_POST['customer'] ) ) {
+		$customer_id = absint(sanitize_text_field( wp_unslash( $_POST['customer'] ) ));
+		if($customer_id) {
+			$customer = new \WC_Customer( $customer_id );
+		}
+	} 
 
 	if ( ! $customer ) {
 		wc_add_notice( __( 'Could not get customer.', 'woo-address-book' ), 'error' );
