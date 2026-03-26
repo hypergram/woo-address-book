@@ -244,6 +244,9 @@ if ( setting( 'shipping_enable' ) === true ) {
 						<address class="my-2">
 							<?php echo wp_kses( $woo_address_book_formatted_address, array( 'br' => array() ) ); ?>
 						</address>
+						<?php if(isset($woo_address_book_fields['phone'])) { ?>
+						<?php echo wp_kses($woo_address_book_fields['phone'], array()); ?><br>
+						<?php } ?>
 						<div class="wc-address-book-meta flex gap-x-2 border-t border-gray-200 pt-1">
 							<a href="<?php echo esc_url( get_address_book_endpoint_url( $woo_address_book_key, 'shipping' ) ); ?>" class="wc-address-book-edit button wp-element-button btn transition-colors focus:outline-none focus:ring-2 ring-offset-transparent focus:ring-offset-2 focus:ring-opacity-50 inline-flex items-center text-white bg-green hover:bg-green-600 focus:bg-green-600 focus:ring-green-600 border border-transparent px-2 py-1 text-xs rounded-sm font-normal"><?php echo esc_html__( 'Edit', 'woo-address-book' ); ?></a>
 							<button type="button" data-wc-address-type="shipping" data-wc-address-name="<?php echo esc_attr( $woo_address_book_key ); ?>" class="wc-address-book-delete button wp-element-button btn inline-flex items-center border border-transparent px-2 py-1 text-xs rounded-sm font-normal <?php echo $woo_address_book_address_default ? 'bg-gray-200 text-gray-50' : 'bg-red-400 text-white'; ?>"><?php echo esc_html__( 'Delete', 'woo-address-book' ); ?></button>
